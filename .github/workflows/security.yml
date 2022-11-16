@@ -17,7 +17,7 @@ jobs:
         with:
           github-token: "${{ secrets.PAT }}"
         env:
-         Ghsa-id: steps.dependabot-metadata.outputs.ghsa-id  
+         Ghsa-id: ${{ steps.dependabot-metadata.outputs.ghsa-id }}
       - name: test
         run: |
           echo $Ghsa-id
