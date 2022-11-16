@@ -1,18 +1,24 @@
-name: GitHub Security Alerts for Jira
+name: Dependabot fetch metadata
+on: pull_request
 
-on: workflow_dispatch
+permissions:
+  pull-requests: write
+  issues: write
+  repository-projects: write
 
 jobs:
-  syncSecurityAlerts:
+  dependabot:
     runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
-      - name: "Sync security alerts to Jira issues"
-        uses: reload/github-security-jira@v1.x
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1.1.1
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
         env:
-          GH_SECURITY_TOKEN: ${{ secrets.GITHUBPT }}
-          JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-          JIRA_HOST: https://keerthanatest.atlassian.net
-          JIRA_USER: keerthanagvsl64@gmail.com
-          JIRA_PROJECT: TES
-          
-        
+         Ghsa-id: steps.dependabot-metadata.outputs.ghsa-id  
+      - name: test
+        run: |
+          echo $Ghsa-id
+        shell: bash
