@@ -15,9 +15,10 @@ jobs:
         uses: dependabot/fetch-metadata@v1.1.1
         with:
           github-token: "${{ secrets.PAT_TOKEN }}"
+        
+      - name: test
         env:
           JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-      - name: test
         run: |
           jira_ticket() {
           cat <<- EOF
