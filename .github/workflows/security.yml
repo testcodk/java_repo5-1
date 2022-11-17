@@ -21,3 +21,29 @@ jobs:
         run: |
           echo ${{ steps.dependabot-metadata.outputs.dependency-names }}
         shell: bash
+      - name: Checkout Jira integration GitHub Action Repo
+        uses: actions/checkout@v2
+        with:
+          repository: camelotls/actions-jira-integration
+          token: ${{ secrets.PAT_TOKEN }}
+          path: actions-jira-integration
+      - name: Jira ticket creation
+        id: jira_integration
+        uses: ./actions-jira-integration/
+        env:
+                ISSUE_TYPE: Incident
+                ISSUE_LABELS_MAPPER: 'Dependabot'
+                JIRA_PROJECT: TS
+        with:
+                JIRA_USER: ${{ secrets.JIRA_USER }}
+                JIRA_PASSWORD: ${{ secrets.JIRA_PASSWORD }}
+                # the job with id npm_audit outputs a variable called npm_audit_json
+                JIRA_PROJECT: ${{ env.JIRA_PROJECT }}
+                JIRA_URI: https://keerthanatest.atlassian.net
+                REPORT_INPUT_KEYS: |
+                                    issueName: Dependabot-alert-GITHUB_REPOSITORY
+                                    issueSummary: ${{ steps.dependabot-metadata.outputs.dependency-names }}
+                                    issueDescription:${{ github.event.pull_request.html_url }}
+                                    issueSeverity: {{severity}}
+                ISSUE_TYPE: ${{ env.ISSUE_TYPE }}
+                RUNS_ON_GITHUB: true
