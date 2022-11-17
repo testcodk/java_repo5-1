@@ -17,9 +17,6 @@ jobs:
           github-token: "${{ secrets.PAT_TOKEN }}"
         env:
           JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-          JIRA_PROJECT: PGS
-          JIRA_ISSUE_TYPE: Incident
-          JIRA_ISSUE_LABELS: Dependabot
       - name: test
         run: |
           jira_ticket() {
