@@ -16,7 +16,7 @@ jobs:
           JIRA_ISSUE_LABELS: Dependabot
        run: |
         jira_ticket() {
-        cat <<EOF
+        cat <<- EOF
             {
          "fields":{
          "project":{
@@ -38,6 +38,7 @@ jobs:
          ]
         }
         }
+        EOF
         }
           curl -sH "Authorization: Bearer ${JIRA_TOKEN}" -X POST --data "$(jira_ticket)" \
                              -H "Content-Type: application/json" https://jira.sixt.com/rest/api/2/issue/
