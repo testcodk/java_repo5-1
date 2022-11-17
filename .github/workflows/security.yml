@@ -18,7 +18,7 @@ jobs:
           compat-lookup: true
           github-token: "${{ secrets.PAT_TOKEN }}"
         env:
-         Ghsa-id: ${{ steps.dependabot-metadata.outputs.ghsa-id }}
+         Ghsa-id: ${{ steps.dependabot-metadata.outputs.dependency-names }}
       - name: test
         run: |
           echo $Ghsa-id
