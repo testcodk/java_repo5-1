@@ -44,6 +44,5 @@ jobs:
                                     issueName: Dependabot-alert-GITHUB_REPOSITORY
                                     issueSummary: ${{ steps.dependabot-metadata.outputs.dependency-names }}
                                     issueDescription:${{ github.event.pull_request.html_url }}
-                                    issueSeverity: {{severity}}
                 ISSUE_TYPE: ${{ env.ISSUE_TYPE }}
                 RUNS_ON_GITHUB: true
