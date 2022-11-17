@@ -15,7 +15,9 @@ jobs:
         id: metadata
         uses: dependabot/fetch-metadata@v1.1.1
         with:
-          github-token: "${{ secrets.PAT }}"
+          alert-lookup: true
+          compat-lookup: true
+          github-token: "${{ secrets.PAT_TOKEN }}"
         env:
          Ghsa-id: ${{ steps.dependabot-metadata.outputs.ghsa-id }}
       - name: test
