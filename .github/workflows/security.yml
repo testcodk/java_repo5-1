@@ -29,14 +29,14 @@ jobs:
         env:
                 ISSUE_TYPE: Bug
                 ISSUE_LABELS_MAPPER: 'Dependabot'
-                JIRA_PROJECT: TS
+                JIRA_PROJECT: PGS
         with:
                 JIRA_USER: ${{ secrets.JIRA_USER }}
                 JIRA_PASSWORD: ${{ secrets.JIRA_PASSWORD }}
                 # the job with id npm_audit outputs a variable called npm_audit_json
                 INPUT_JSON: './test.json'
                 JIRA_PROJECT: ${{ env.JIRA_PROJECT }}
-                JIRA_URI: https://jira.sixt.com
+                JIRA_URI: https://jira.sixt.com/rest/api/2/issue/
                 REPORT_INPUT_KEYS: |
                                     issueName: Dependabot-alert-Test
                                     issueSummary: Summary Dependabot-alert-Test
