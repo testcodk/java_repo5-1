@@ -1,45 +1,19 @@
-name: test jira
+name: GitHub Security Alerts for Jira
+
 on: 
  workflow_dispatch
 
-permissions:
-  pull-requests: write
-  contents: write
-
 jobs:
-  dependabot:
+  syncSecurityAlerts:
     runs-on: ubuntu-latest
-    
     steps:
-
-      - name: Checkout Jira integration GitHub Action Repo
-        uses: actions/checkout@v2
-        with:
-          repository: camelotls/actions-jira-integration
-          token: ${{ secrets.PAT_TOKEN }}
-          path: actions-jira-integration
-      - name: create file
-        uses: "finnp/create-file-action@master"
-        env:
-         FILE_NAME: "./test.json"
-         FILE_DATA: "nothing"
-      - name: Jira ticket creation
-        id: jira_integration
-        uses: ./actions-jira-integration/
-        env:
-                ISSUE_TYPE: Bug
-                ISSUE_LABELS_MAPPER: 'Dependabot'
-                JIRA_PROJECT: PGS
-        with:
-                JIRA_USER: ${{ secrets.JIRA_USER }}
-                JIRA_PASSWORD: ${{ secrets.JIRA_PASSWORD }}
-                # the job with id npm_audit outputs a variable called npm_audit_json
-                INPUT_JSON: './test.json'
-                JIRA_PROJECT: ${{ env.JIRA_PROJECT }}
-                JIRA_URI: https://jira.sixt.com/rest/api/2/issue/
-                REPORT_INPUT_KEYS: |
-                                    issueName: Dependabot-alert-Test
-                                    issueSummary: Summary Dependabot-alert-Test
-                                    issueDescription: description Dependabot-alert-Test
-                ISSUE_TYPE: ${{ env.ISSUE_TYPE }}
-                RUNS_ON_GITHUB: true
+     - name: "test"
+       env:
+          GH_SECURITY_TOKEN: ${{ secrets.GITHUBPT }}
+          JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_PROJECT: PGS
+          JIRA_ISSUE_TYPE: Incident
+          JIRA_ISSUE_LABELS: Dependabot
+       run: |
+          curl -H "Authorization: Bearer $JIRA_TOKEN" -X GET -H "Content-Type: application/json" https://jira.sixt.com/rest/api/2/search 
+       shell: bash
