@@ -15,5 +15,31 @@ jobs:
           JIRA_ISSUE_TYPE: Incident
           JIRA_ISSUE_LABELS: Dependabot
        run: |
-          curl -H "Authorization: Bearer $JIRA_TOKEN" -X GET -H "Content-Type: application/json" https://jira.sixt.com/rest/api/2/search 
+        jira_ticket() {
+          cat <<EOF
+            {
+         "fields":{
+         "project":{
+         "key":"PGS"
+         },
+        "summary":"Dependabot-summary-test",
+        "description":"Dependabot description",
+        "issuetype":{
+         "name":"Incident"
+        },
+        "priority":{
+         "name":"Low"
+        },
+        "customfield_10025":{
+          "value":"No"
+        },
+        "labels":[
+         "Dependabot"
+         ]
+        }
+        }
+        }
+          curl -sH "Authorization: Bearer ${JIRA_TOKEN}" -X POST --data "$(jira_ticket)" \
+                             -H "Content-Type: application/json" https://jira.sixt.com/rest/api/2/issue/
+          
        shell: bash
