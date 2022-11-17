@@ -22,23 +22,15 @@ jobs:
           JIRA_ISSUE_LABELS: Dependabot
       - name: test
         run: |
-          echo ${{ steps.dependabot-metadata.outputs.updated-dependencies-json }}
-          echo ${{ steps.dependabot-metadata.outputs.dependency-names }}
-          echo ${{ steps.dependabot-metadata.outputs.dependency-type }}
-          echo ${{ steps.dependabot-metadata.outputs.update-type }}
-          echo ${{ steps.dependabot-metadata.outputs.alert-state }}
-          echo ${{ github.repository }}
-          echo ${{ github.triggering_actor }}
-          echo ${{ github.event.pull_request.html_url }}
           jira_ticket() {
           cat <<- EOF
-            {
+             {
            "fields":{
            "project":{
            "key":"PGS"
            },
-          "summary":"${{ github.triggering_actor }} alert from ${{ github.repository }}",
-          "description":" You can get the details of the alert here ${{ github.event.pull_request.html_url }}",
+          "summary":"test summary dependabot",
+          "description":" test description dependabot",
           "issuetype":{
           "name":"Incident"
           },
