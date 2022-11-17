@@ -30,9 +30,6 @@ jobs:
         "priority":{
          "name":"Low"
         },
-        "customfield_10025":{
-          "value":"No"
-        },
         "labels":[
          "Dependabot"
          ]
