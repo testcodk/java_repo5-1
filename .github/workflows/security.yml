@@ -20,8 +20,6 @@ jobs:
           GH_SECURITY_TOKEN: ${{ secrets.PAT_TOKEN }}
           JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
         run: |
-          jira_ticket() {
-          run: |
            jira_ticket() {
            cat <<- EOF
             {
@@ -29,22 +27,22 @@ jobs:
            "project":{
            "key":"PGS"
            },
-          "summary":"Dependabot-summary-test",
-          "description":"Dependabot description",
-          "issuetype":{
+           "summary":"Dependabot-summary-test",
+           "description":"Dependabot description",
+           "issuetype":{
            "name":"Incident"
-          },
-          "priority":{
+           },
+           "priority":{
            "name":"Low"
-          },
+           },
            "labels":[
            "Dependabot"
            ]
-          } 
-          }
-          EOF
-          } 
-            curl -sH "Authorization: Bearer ${JIRA_TOKEN}" -X POST --data "$(jira_ticket)" \
+           } 
+           }
+           EOF
+           } 
+             curl -sH "Authorization: Bearer ${JIRA_TOKEN}" -X POST --data "$(jira_ticket)" \
                              -H "Content-Type: application/json" https://jira.sixt.com/rest/api/2/issue/
           
         shell: bash
