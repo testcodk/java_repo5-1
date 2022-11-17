@@ -21,19 +21,21 @@ jobs:
           JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
         run: |
           jira_ticket() {
-          cat <<- EOF
-             {
+          run: |
+           jira_ticket() {
+           cat <<- EOF
+            {
            "fields":{
            "project":{
            "key":"PGS"
            },
-          "summary":"test summary dependabot",
-          "description":" test description dependabot",
+          "summary":"Dependabot-summary-test",
+          "description":"Dependabot description",
           "issuetype":{
-          "name":"Incident"
+           "name":"Incident"
           },
           "priority":{
-          "name":"Low"
+           "name":"Low"
           },
           "labels":[
           "Dependabot"
