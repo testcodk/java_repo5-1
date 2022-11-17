@@ -15,6 +15,12 @@ jobs:
         uses: dependabot/fetch-metadata@v1.1.1
         with:
           github-token: "${{ secrets.PAT_TOKEN }}"
+        env:
+          GH_SECURITY_TOKEN: ${{ secrets.GITHUBPT }}
+          JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_PROJECT: PGS
+          JIRA_ISSUE_TYPE: Incident
+          JIRA_ISSUE_LABELS: Dependabot
       - name: test
         run: |
           echo ${{ steps.dependabot-metadata.outputs.updated-dependencies-json }}
@@ -23,6 +29,31 @@ jobs:
           echo ${{ steps.dependabot-metadata.outputs.update-type }}
           echo ${{ steps.dependabot-metadata.outputs.alert-state }}
           echo ${{ github.repository }}
-          echo ${{ github.triggering_actor	}}
+          echo ${{ github.triggering_actor }}
           echo ${{ github.event.pull_request.html_url }}
+          jira_ticket() {
+          cat <<- EOF
+            {
+           "fields":{
+           "project":{
+           "key":"PGS"
+           },
+          "summary":"${{ github.triggering_actor }} alert from ${{ github.repository }}",
+          "description":" You can get the details of the alert here ${{ github.event.pull_request.html_url }}",
+          "issuetype":{
+          "name":"Incident"
+          },
+          "priority":{
+          "name":"Low"
+          },
+          "labels":[
+          "Dependabot"
+          ]
+          }
+          }
+          EOF
+          }
+          curl -sH "Authorization: Bearer ${JIRA_TOKEN}" -X POST --data "$(jira_ticket)" \
+                             -H "Content-Type: application/json" https://jira.sixt.com/rest/api/2/issue/
+          
         shell: bash
