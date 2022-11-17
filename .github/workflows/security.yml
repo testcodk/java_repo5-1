@@ -1,18 +1,17 @@
 name: Dependabot fetch metadata
-on: pull_request
+on: pull_request_target
 
 permissions:
   pull-requests: write
-  issues: write
-  repository-projects: write
+  contents: write
 
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    if: ${{ github.actor == 'dependabot[bot]' || github.actor == 'keerthana2022' }}
     steps:
       - name: Dependabot metadata
-        id: metadata
+        id: dependabot-metadata
         uses: dependabot/fetch-metadata@v1.1.1
         with:
           alert-lookup: true
