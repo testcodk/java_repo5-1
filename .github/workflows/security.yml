@@ -27,6 +27,11 @@ jobs:
           repository: camelotls/actions-jira-integration
           token: ${{ secrets.PAT_TOKEN }}
           path: actions-jira-integration
+      - name: create file
+        uses: "finnp/create-file-action@master"
+        env:
+         FILE_NAME: "./test.json"
+         FILE_DATA: "nothing"
       - name: Jira ticket creation
         id: jira_integration
         uses: ./actions-jira-integration/
