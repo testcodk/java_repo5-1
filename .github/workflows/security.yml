@@ -1,5 +1,6 @@
-name: Dependabot fetch metadata
-on: pull_request_target
+name: test jira
+on: 
+ workflow_dispatch
 
 permissions:
   pull-requests: write
@@ -8,19 +9,9 @@ permissions:
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' || github.actor == 'keerthana2022' }}
+    
     steps:
-      - name: Dependabot metadata
-        id: dependabot-metadata
-        uses: dependabot/fetch-metadata@v1.1.1
-        with:
-          alert-lookup: true
-          compat-lookup: true
-          github-token: "${{ secrets.PAT_TOKEN }}"
-      - name: test
-        run: |
-          echo ${{ steps.dependabot-metadata.outputs.dependency-names }}
-        shell: bash
+
       - name: Checkout Jira integration GitHub Action Repo
         uses: actions/checkout@v2
         with:
@@ -43,11 +34,12 @@ jobs:
                 JIRA_USER: ${{ secrets.JIRA_USER }}
                 JIRA_PASSWORD: ${{ secrets.JIRA_PASSWORD }}
                 # the job with id npm_audit outputs a variable called npm_audit_json
+                INPUT_JSON: './test.json'
                 JIRA_PROJECT: ${{ env.JIRA_PROJECT }}
                 JIRA_URI: https://keerthanatest.atlassian.net
                 REPORT_INPUT_KEYS: |
                                     issueName: Dependabot-alert-GITHUB_REPOSITORY
-                                    issueSummary: ${{ steps.dependabot-metadata.outputs.dependency-names }}
-                                    issueDescription:${{ github.event.pull_request.html_url }}
+                                    issueSummary: Summary
+                                    issueDescription: description
                 ISSUE_TYPE: ${{ env.ISSUE_TYPE }}
                 RUNS_ON_GITHUB: true
