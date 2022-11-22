@@ -10,16 +10,13 @@ jobs:
   dependabot:
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'keerthana2022'}}
-    steps:
-      - name: Dependabot metadata
-        id: dependabot-metadata
-        uses: dependabot/fetch-metadata@v1.1.1
-        with:
-          github-token: "${{ secrets.PAT_TOKEN }}"
-      - name: get values https://github.com/$GITHUB_REPOSITORY/security/dependabot/$number
+    steps: 
+      - name: get values 
         run: |
              sha=`github.event.pull_request.head.sha`
+             echo $sha
              number=`curl -s https://api.github.com/search/issues\?q\=sha:$sha | grep "number" | cut -d ":" -f 2| cut -c 2`
              echo $number
              url=`https://github.com/$GITHUB_REPOSITORY/security/dependabot/$number`
+             echo $url
         shell: bash
