@@ -1,0 +1,11 @@
+name: GitHub Security Alerts for Jira
+
+on:
+  workflow_dispatch
+jobs:
+  syncSecurityAlerts:
+    runs-on: ubuntu-latest
+    - name: get values
+      run: |
+             curl -s https://api.github.com/search/issues\?q\=sha:d12a027ebe0ee6e514a70550252a454f4efdff4d | grep "number" | cut -d ":" -f 2| cut -c 2
+      shell: bash
