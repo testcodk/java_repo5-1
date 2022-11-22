@@ -13,8 +13,9 @@ jobs:
     steps: 
       - name: get values 
         run: |
-             sha=`github.event.pull_request.head.sha`
+             sha=`${{ github.event.pull_request.head.sha }}`
              echo $sha
+
              number=`curl -s https://api.github.com/search/issues\?q\=sha:$sha | grep "number" | cut -d ":" -f 2| cut -c 2`
              echo $number
              url=`https://github.com/$GITHUB_REPOSITORY/security/dependabot/$number`
