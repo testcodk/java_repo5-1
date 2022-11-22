@@ -1,13 +1,25 @@
-name: GitHub Security Alerts for Jira
 
-on:
-  workflow_dispatch
+name: Dependabot fetch metadata
+on: pull_request
+
+permissions:
+  pull-requests: write
+  contents: write
+
 jobs:
-  syncSecurityAlerts:
+  dependabot:
     runs-on: ubuntu-latest
+    if: ${{ github.actor == 'keerthana2022'}}
     steps:
-    - name: get values
-      run: |
-             number=`curl -s https://api.github.com/search/issues\?q\=sha:d12a027ebe0ee6e514a70550252a454f4efdff4d | grep "number" | cut -d ":" -f 2| cut -c 2`
+      - name: Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v1.1.1
+        with:
+          github-token: "${{ secrets.PAT_TOKEN }}"
+      - name: get values https://github.com/$GITHUB_REPOSITORY/security/dependabot/$number
+        run: |
+             sha=`github.event.pull_request.head.sha`
+             number=`curl -s https://api.github.com/search/issues\?q\=sha:$sha | grep "number" | cut -d ":" -f 2| cut -c 2`
              echo $number
-      shell: bash
+             url=`https://github.com/$GITHUB_REPOSITORY/security/dependabot/$number`
+        shell: bash
