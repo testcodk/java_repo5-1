@@ -1,16 +1,20 @@
+name: Dependabot fetch metadata
+on: pull_request
 
-name: GitHub Security Alerts for Jira
+permissions:
+  pull-requests: write
+  contents: write
 
-on:
-  workflow_dispatch
 jobs:
-  syncSecurityAlerts:
+  dependabot:
     runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]'}}
     steps:
-      - name: "Sync security alerts to Jira issues"
-        uses: reload/github-security-jira@v1.x
-        env:
-          GH_SECURITY_TOKEN: ${{ secrets.PAT_TOKEN }}
+      - name: Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v1.1.1
+        with:
+          github-token: "${{ secrets.PAT_TOKEN }}"
       - name: Jira Integration
         env:
           GH_SECURITY_TOKEN: ${{ secrets.PAT_TOKEN }}
@@ -21,12 +25,12 @@ jobs:
             {
            "fields":{
            "project":{
-           "key":"TS"
+           "key":"PGS"
            },
            "summary":"${{ github.actor }} alert from $GITHUB_REPOSITORY",
-           "description":"Further details of the alert can be seen here $advisory_description",
+           "description":"Further details of the alert can be seen here ${{ github.event.pull_request.html_url }}",
            "assignee":{
-           "name":"Keert2"
+           "name":"pgs-user"
            },
            "issuetype":{
            "name":"Incident"
@@ -42,6 +46,6 @@ jobs:
            EOF
            } 
              curl -sH "Authorization: Bearer ${JIRA_TOKEN}" -X POST --data "$(jira_ticket)" \
-                             -H "Content-Type: application/json" https://keerthanatest.atlassian.net
+                             -H "Content-Type: application/json" https://jira.sixt.com/rest/api/2/issue/
           
         shell: bash
