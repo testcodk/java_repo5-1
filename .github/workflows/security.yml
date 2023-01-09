@@ -25,12 +25,12 @@ jobs:
             {
            "fields":{
            "project":{
-           "key":"RCRE"
+           "key":"TPRA"
            },
            "summary":"${{ github.actor }} alert from $GITHUB_REPOSITORY",
            "description":"Further details of the alert can be seen here ${{ github.event.pull_request.html_url }}",
            "assignee":{
-           "name":"i9975"
+           "name":"pgs-user"
            },
            "issuetype":{
            "name":"Incident"
