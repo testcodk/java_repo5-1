@@ -33,7 +33,7 @@ jobs:
            "name":"pgs-user"
            },
            "issuetype":{
-           "name":"Bug"
+           "name":"Incident"
            },
            "priority":{
            "name":"Low"
